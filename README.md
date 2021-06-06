@@ -10,3 +10,6 @@
 
 ## Usage
 
+Example:
+
+`python maze.py mazes/maze-cycle.txt`

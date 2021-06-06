@@ -257,7 +257,7 @@ def main(file: str) -> None:
     if maze.solve():
         # maze has a solution
         # print solved maze
-        print('Solve maze:')
+        print('Solved maze:')
         print(maze.get_maze_with_movements())
 
         # print path as string
