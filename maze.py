@@ -152,22 +152,22 @@ class Maze(object):
     def from_txt(cls: Type[M], file: str) -> M:
         try:
             f = open(file, "r")
-        finally:
+
+            lines = f.read().splitlines()
+            f.close()
+
+            matrix = []
+            for line in lines:
+                for i, j in Maze.CHAR_MAP.items():
+                    line = line.replace(i, str(j))
+                elements = list(map(int, list(line)))
+                matrix.append(np.array(elements))
+            maze = np.array(matrix)
+            return cls(maze)
+        except FileNotFoundError:
             print("Could not open file {}".format(file),
                   file=sys.stderr)
             exit(1)
-
-        lines = f.read().splitlines()
-        f.close()
-
-        matrix = []
-        for line in lines:
-            for i, j in Maze.CHAR_MAP.items():
-                line = line.replace(i, str(j))
-            elements = list(map(int, list(line)))
-            matrix.append(np.array(elements))
-        maze = np.array(matrix)
-        return cls(maze)
 
     @staticmethod
     def get_maze(maze: ndarray) -> str:
