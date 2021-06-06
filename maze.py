@@ -25,6 +25,11 @@ class Movement(Enum):
         return [Movement.NORTH, Movement.EAST, Movement.SOUTH, Movement.WEST]
 
     def get_opposite(self) -> 'Movement':
+        # As per the suggestion on
+        # https://stackoverflow.com/questions/19792112/static-method-returning-an-instance-of-its-class
+        # I needed to put Movement into quotes as it is not recognized
+        # here as the return type declaration
+
         # Get opposite of the direction (e.g. south => north)
         if self == Movement.NORTH:
             return Movement.SOUTH
@@ -138,9 +143,6 @@ class Maze(object):
 
     @classmethod
     def from_txt(cls: Type[M], file: str) -> M:
-        # As per the suggestion on
-        # https://stackoverflow.com/questions/19792112/static-method-returning-an-instance-of-its-class
-        # I needed to put Maze into quotes as it is not recognized here
         try:
             f = open(file, "r")
         except FileNotFoundError:
