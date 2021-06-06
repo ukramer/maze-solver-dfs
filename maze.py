@@ -10,19 +10,21 @@ M = TypeVar('M', bound='Maze')
 
 class Movement(Enum):
     """
-    This enum contains the four possible directions (north, east, south and west).
-    Additionally the opposite direction (north => south, east => west, south => north and west => east)
+    This enum contains the four possible directions (north, east, south
+    and west). Additionally the opposite direction (north => south,
+    east => west, south => north and west => east)
     is possible to get.
     """
-    NORTH: str = 'N'
-    EAST: str = 'E'
-    SOUTH: str = 'S'
-    WEST: str = 'W'
+    NORTH = 'N'
+    EAST = 'E'
+    SOUTH = 'S'
+    WEST = 'W'
 
     @staticmethod
     def get_all() -> List['Movement']:
         # Return all possible movements
-        return [Movement.NORTH, Movement.EAST, Movement.SOUTH, Movement.WEST]
+        return [Movement.NORTH, Movement.EAST, Movement.SOUTH,
+                Movement.WEST]
 
     def get_opposite(self) -> 'Movement':
         # As per the suggestion on
@@ -93,8 +95,9 @@ class Maze(object):
         """
         The algorithm searches depth first for a possible path.
         1. Get the start point.
-        2. Search for possible movement in the order of North, East, South, West.
-           Exceptional case: no possible movement found: Go back one point and go another way.
+        2. Search for possible movement in the order of North, East,
+           South, West. Exceptional case: no possible movement found:
+           Go back one point and go another way.
         3. Follow possible movement and repeat steps 2 - 3.
 
         Not possible movements (in point 2) are:
@@ -103,9 +106,11 @@ class Maze(object):
 
         Stop of the algorithm in one of those cases:
         1) Path reaches the goal point.
-        2) Had as many exceptional cases in step 2 that it got back to the start point.
+        2) Had as many exceptional cases in step 2 that it got back to
+           the start point.
 
-        :return: bool TRUE if there is a result, FALSE if there is no path found from A to B
+        :return: bool TRUE if there is a result, FALSE if there is no
+                      path found from A to B
         """
         self.current_pos = self.get_start_point()
         self.goal_pos = self.get_goal_point()
@@ -119,10 +124,12 @@ class Maze(object):
                 # Step back and repeat Step 2
                 self.path.pop()
                 if len(self.path) == 0:
-                    # Stop case 2: no solution found as we are at the beginning again
+                    # Stop case 2: no solution found as we are at the
+                    # beginning again
                     return False
 
-                # Step 1: get next possible movement after step back in exceptional case.
+                # Step 1: get next possible movement after step back
+                # in exceptional case.
                 self.current_pos = self.path[-1]
                 last_movement = self.movements.pop()
                 next_movement = self.__get_next_possible_movement(
@@ -145,7 +152,7 @@ class Maze(object):
     def from_txt(cls: Type[M], file: str) -> M:
         try:
             f = open(file, "r")
-        except FileNotFoundError:
+        finally:
             print("Could not open file {}".format(file),
                   file=sys.stderr)
             exit(1)
@@ -175,8 +182,8 @@ class Maze(object):
 
     def get_maze_with_movements(self) -> str:
         """
-        Add the path to the maze by adding the integer of the movement to
-        the maze at the correct place.
+        Add the path to the maze by adding the integer of the movement
+        to the maze at the correct place.
         :return: string
         """
         maze = self.maze.copy()
@@ -220,13 +227,14 @@ class Maze(object):
             # Cycle detected: no possible movement
             return False
         # Only EMPTY and GOAL_POINT is a possible movement
-        return self.maze[y, x] and \
-               self.maze[y, x] in [self.EMPTY, self.GOAL_POINT]
+        return self.maze[y, x] and self.maze[y, x] in \
+            [self.EMPTY, self.GOAL_POINT]
 
     def __get_next_possible_movement(
             self, already_tried_movement: Optional[Movement] = None
     ) -> Optional[Movement]:
-        # find possible movement starting from the already_tried_movement (this is the case when stepping back)
+        # find possible movement starting from the
+        # already_tried_movement (this is the case when stepping back)
         movements = self.MOVEMENTS
         if already_tried_movement:
             # remove the already tried movements
@@ -235,7 +243,8 @@ class Maze(object):
             movements = self.MOVEMENTS[index_last_movement + 1:]
 
         for movement in movements:
-            # loop through all movements and check whether there is a valid path to follow
+            # loop through all movements and check whether there is a
+            # valid path to follow
             if len(self.movements) > 0:
                 # the path back is not allowed
                 if movement == self.movements[-1].get_opposite:
