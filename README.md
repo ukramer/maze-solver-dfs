@@ -1,4 +1,7 @@
-# Maze kramu1
+# Maze Solving with Depth-First-Search
+
+This project was started by an exercise with algorithms. The goal was
+to find a path from A to B in a defined maze (provided as plain text file).
 
 ## Preparation
 
@@ -13,3 +16,7 @@
 Example:
 
 `python maze.py mazes/maze-cycle.txt`
+
+## Information
+
+The start point needs to be "A", the end point "B".
